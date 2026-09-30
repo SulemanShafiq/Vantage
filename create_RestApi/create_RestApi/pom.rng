@@ -1,0 +1,197 @@
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
+	datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+	<start>
+		<ref name="modelVersionContent" />
+	</start>
+	<define name="modelVersionContent">
+		<element name="modelVersion">
+			<text />
+		</element>
+	</define>
+	<define name="modelVersionContent">
+		<element name="parent">
+			<ref name="groupIdContent" />
+			<ref name="artifactIdContent" />
+			<ref name="versionContent" />
+			<ref name="relativePathContent" />
+		</element>
+	</define>
+	<define name="groupIdContent">
+		<element name="groupId">
+			<text />
+		</element>
+	</define>
+	<define name="artifactIdContent">
+		<element name="artifactId">
+			<text />
+		</element>
+	</define>
+	<define name="versionContent">
+		<element name="version">
+			<text />
+		</element>
+	</define>
+	<define name="relativePathContent">
+		<element name="relativePath">
+			<empty />
+		</element>
+	</define>
+	<define name="modelVersionContent">
+		<element name="groupId">
+			<text />
+		</element>
+	</define>
+	<define name="modelVersionContent">
+		<element name="artifactId">
+			<text />
+		</element>
+	</define>
+	<define name="modelVersionContent">
+		<element name="version">
+			<text />
+		</element>
+	</define>
+	<define name="modelVersionContent">
+		<element name="name">
+			<empty />
+		</element>
+	</define>
+	<define name="modelVersionContent">
+		<element name="description">
+			<empty />
+		</element>
+	</define>
+	<define name="modelVersionContent">
+		<element name="url">
+			<empty />
+		</element>
+	</define>
+	<define name="modelVersionContent">
+		<element name="licenses">
+			<ref name="licenseContent" />
+		</element>
+	</define>
+	<define name="licenseContent">
+		<element name="license">
+			<empty />
+		</element>
+	</define>
+	<define name="modelVersionContent">
+		<element name="developers">
+			<ref name="developerContent" />
+		</element>
+	</define>
+	<define name="developerContent">
+		<element name="developer">
+			<empty />
+		</element>
+	</define>
+	<define name="modelVersionContent">
+		<element name="scm">
+			<ref name="connectionContent" />
+			<ref name="developerConnectionContent" />
+			<ref name="tagContent" />
+			<ref name="urlContent" />
+		</element>
+	</define>
+	<define name="connectionContent">
+		<element name="connection">
+			<empty />
+		</element>
+	</define>
+	<define name="developerConnectionContent">
+		<element name="developerConnection">
+			<empty />
+		</element>
+	</define>
+	<define name="tagContent">
+		<element name="tag">
+			<empty />
+		</element>
+	</define>
+	<define name="urlContent">
+		<element name="url">
+			<empty />
+		</element>
+	</define>
+	<define name="modelVersionContent">
+		<element name="properties">
+			<ref name="java.versionContent" />
+		</element>
+	</define>
+	<define name="java.versionContent">
+		<element name="java.version">
+			<text />
+		</element>
+	</define>
+	<define name="modelVersionContent">
+		<element name="dependencies">
+			<oneOrMore>
+				<ref name="dependencyContent" />
+			</oneOrMore>
+		</element>
+	</define>
+	<define name="dependencyContent">
+		<element name="dependency">
+			<ref name="groupIdContent" />
+			<ref name="artifactIdContent" />
+			<optional>
+				<ref name="scopeContent" />
+			</optional>
+			<optional>
+				<ref name="versionContent" />
+			</optional>
+		</element>
+	</define>
+	<define name="groupIdContent">
+		<element name="groupId">
+			<text />
+		</element>
+	</define>
+	<define name="artifactIdContent">
+		<element name="artifactId">
+			<text />
+		</element>
+	</define>
+	<define name="scopeContent">
+		<element name="scope">
+			<text />
+		</element>
+	</define>
+	<define name="versionContent">
+		<element name="version">
+			<text />
+		</element>
+	</define>
+	<define name="modelVersionContent">
+		<element name="build">
+			<ref name="pluginsContent" />
+		</element>
+	</define>
+	<define name="pluginsContent">
+		<element name="plugins">
+			<ref name="pluginContent" />
+		</element>
+	</define>
+	<define name="pluginContent">
+		<element name="plugin">
+			<ref name="groupIdContent" />
+			<ref name="artifactIdContent" />
+		</element>
+	</define>
+	<define name="groupIdContent">
+		<element name="groupId">
+			<text />
+		</element>
+	</define>
+	<define name="artifactIdContent">
+		<element name="artifactId">
+			<text />
+		</element>
+	</define>
+	<define name="modelVersionContent">
+		<element name="project">
+			<empty />
+		</element>
+	</define>
+</grammar>

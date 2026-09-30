@@ -1,0 +1,10 @@
+frontend/node_modules/
+frontend/build/
+frontend/dist/
+backend/target/
+.idea/
+.vscode/
+*.log
+.env
+
+create_RestApi/create_RestApi/src/main/resources/application-local.properties

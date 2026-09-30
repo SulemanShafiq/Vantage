@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<title>Products</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+    .controls {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .controls button {
+        padding: 8px 16px;
+        margin: 0 5px;
+        cursor: pointer;
+        border: none;
+        background: #333;
+        color: white;
+        border-radius: 5px;
+    }
+    .controls button:disabled {
+        background: #aaa;
+        cursor: not-allowed;
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+    .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        overflow: hidden;
+        text-align: center;
+    }
+    .card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        background: #eee;
+    }
+    .card-body {
+        padding: 12px;
+    }
+    .card-body h3 {
+        margin: 5px 0;
+        font-size: 16px;
+    }
+    .price {
+        color: #2a7;
+        font-weight: bold;
+    }
+    .category {
+        color: #888;
+        font-size: 13px;
+    }
+    #pageInfo {
+        text-align: center;
+        margin: 10px 0;
+        color: #555;
+    }
+</style>
+</head>
+<body>
+
+<h1>Products</h1>
+
+<div class="controls">
+    <button id="prevBtn" onclick="changePage(-1)">Previous</button>
+    <span id="pageInfo">Page 1</span>
+    <button id="nextBtn" onclick="changePage(1)">Next</button>
+</div>
+
+<div class="grid" id="productGrid"></div>
+
+<script>
+    // Spring Boot app ka sahi port - 8080
+    const API_URL = "http://localhost:8080/api/products/paginated";
+    let currentPage = 0;
+    const pageSize = 8;
+
+    // Ye ek inline SVG hai - kabhi internet se load nahi hota, isliye kabhi fail nahi hoga
+    const NO_IMAGE_SVG = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(
+        `<svg xmlns='http://www.w3.org/2000/svg' width='220' height='180'>
+            <rect width='100%' height='100%' fill='#e0e0e0'/>
+            <text x='50%' y='50%' font-family='Arial' font-size='14' fill='#888' text-anchor='middle' dy='.3em'>No Image</text>
+        </svg>`
+    );
+
+    async function loadProducts() {
+        try {
+            const response = await fetch(`${API_URL}?page=${currentPage}&size=${pageSize}&sortBy=id`);
+
+            if (!response.ok) {
+                throw new Error(`Server ne error diya: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            const grid = document.getElementById("productGrid");
+            grid.innerHTML = "";
+
+            data.content.forEach(product => {
+                const card = document.createElement("div");
+                card.className = "card";
+
+                const img = document.createElement("img");
+				img.src = product.imageUrl || NO_IMAGE_SVG;
+                img.alt = product.name;
+                // onerror ek dafa hi chalega, phir khud ko hata dega - infinite loop nahi banega
+                img.onerror = function () {
+                    this.onerror = null;
+                    this.src = NO_IMAGE_SVG;
+                };
+
+                const body = document.createElement("div");
+                body.className = "card-body";
+                body.innerHTML = `
+                    <h3>${product.name}</h3>
+                    <div class="category">${product.category || ''}</div>
+                    <div class="price">Rs. ${product.price}</div>
+                `;
+
+                card.appendChild(img);
+                card.appendChild(body);
+                grid.appendChild(card);
+            });
+
+            document.getElementById("pageInfo").innerText = 
+                `Page ${data.number + 1} of ${data.totalPages}`;
+            document.getElementById("prevBtn").disabled = data.first;
+            document.getElementById("nextBtn").disabled = data.last;
+
+        } catch (error) {
+            document.getElementById("productGrid").innerHTML = 
+                `<p style='text-align:center;color:red;grid-column:1/-1;'>Data load nahi ho saka: ${error.message}<br>
+                 Check karo: 1) Spring Boot app port 8080 pe chal rahi hai, 2) @CrossOrigin lagaya hai</p>`;
+            console.error(error);
+        }
+    }
+
+    function changePage(direction) {
+        currentPage += direction;
+        loadProducts();
+    }
+
+    loadProducts();
+</script>
+
+</body>
+</html>
